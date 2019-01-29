@@ -1,0 +1,153 @@
+int practiceMode(int rep){
+  int answer[rep]={0,};
+  int trying[rep]={0,};
+  int result=0;
+  int i=0;
+  int ran;
+
+  for(i=0;i<rep;i++){
+    ran=rand()%8;
+    answer[i]=ran;
+    switch(ran)
+    {
+      case 0:
+        analogWrite(vib1,150);
+        tone(buzzer,melody[0],200);
+        delay(300);
+        analogWrite(vib1,0);
+        break;
+        
+      case 1:
+        analogWrite(vib2,150);
+        tone(buzzer,melody[1],200);
+        delay(300);
+        analogWrite(vib2,0);
+        break;
+
+      case 2:
+        analogWrite(vib3,150);
+        tone(buzzer,melody[2],200);
+        delay(300);
+        analogWrite(vib3,0);
+        break;
+
+      case 3:
+        analogWrite(vib4,150);
+        tone(buzzer,melody[3],200);
+        delay(300);
+        analogWrite(vib4,0);
+        break;
+
+      case 4:
+        analogWrite(vib5,150);
+        tone(buzzer,melody[4],200);
+        delay(300);
+        analogWrite(vib5,0);
+        break;
+
+      case 5:
+        analogWrite(vib6,150);
+        tone(buzzer,melody[5],200);
+        delay(300);
+        analogWrite(vib6,0);
+        break;
+
+      case 6:
+        analogWrite(vib7,150);
+        tone(buzzer,melody[6],200);
+        delay(300);
+        analogWrite(vib7,0);
+        break;
+
+      case 7:
+        analogWrite(vib8,150);
+        tone(buzzer,melody[7],200);
+        delay(300);
+        analogWrite(vib8,0);
+        break;
+    }
+  }
+  
+  i=0;
+
+  while(i<rep){
+   if(!digitalRead(button1)||!digitalRead(button2)||!digitalRead(button3)||!digitalRead(button4)||!digitalRead(button5)||!digitalRead(button6)||!digitalRead(button7)||!digitalRead(button8)){
+      if(!digitalRead(button1)) {
+        trying[i++]=0;
+        tone(8,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(button2)) {
+       trying[i++]=1;
+       tone(8,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(button3)) {
+       trying[i++]=2;
+       tone(8,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(button4)) {
+        trying[i++]=3;
+        tone(8,melody[3],200);
+       delay(300);
+      }
+      if(!digitalRead(button5)) {
+        trying[i++]=4;
+        tone(8,melody[4],200);
+       delay(300);
+      }
+      if(!digitalRead(button6)) {
+        trying[i++]=5;
+        tone(8,melody[5],200);
+       delay(300);
+      }
+      if(!digitalRead(button7)) {
+        trying[i++]=6;
+        tone(8,melody[6],200);
+       delay(300);
+      }
+      if(!digitalRead(button8)) {
+        trying[i++]=7;
+        tone(8,melody[7],200);
+       delay(300);
+      }
+   }
+  }
+
+  for(i=0;i<rep;i++){
+    if(answer[i]==trying[i]) result++;
+  }
+
+  if(result==rep){
+    tone(8,melody[0],200);
+    delay(300);
+    tone(8,melody[2],200);
+    delay(300);
+    tone(8,melody[4],200);
+    delay(300);
+    tone(8,melody[7],200);
+    delay(300);
+    return 1;
+  }else{
+    tone(8,melody[6],200);
+    delay(300);
+    tone(8,melody[6],200);
+    delay(300);
+    tone(8,melody[6],200);
+    delay(300);
+    return 0;
+  }
+}
+
+
+void challengeMode(){
+  int c_success;
+  c_success=practiceMode(2);
+  if(c_success==0) c_success=practiceMode(3);
+  if(c_success==0) c_success=practiceMode(4);
+  if(c_success==0) c_success=practiceMode(5);
+  if(c_success==0) c_success=practiceMode(6);
+  if(c_success==0) c_success=practiceMode(7);
+  if(c_success==0) c_success=practiceMode(8);
+}
