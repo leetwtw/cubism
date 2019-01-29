@@ -14,7 +14,7 @@ public class MemoryVo {
 	private int MemorySec;
 	private int MemorymaxSec;
 	private int MemoryminSec;
-	private int MemoryDate;
+	private String MemoryDate;
 	
 	
 	public int getMemoryIdx() {
@@ -53,12 +53,13 @@ public class MemoryVo {
 	public void setMemoryminSec(int memoryminSec) {
 		MemoryminSec = memoryminSec;
 	}
-	public int getMemoryDate() {
+	public String getMemoryDate() {
 		return MemoryDate;
 	}
-	public void setMemoryDate(int memoryDate) {
+	public void setMemoryDate(String memoryDate) {
 		MemoryDate = memoryDate;
 	}
+	
 
 	
 }

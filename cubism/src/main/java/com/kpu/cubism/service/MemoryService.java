@@ -20,6 +20,12 @@ public class MemoryService {
 		System.out.println("Service List Start =================================================");
 		return Memorydao.getMemoryList(vo);
 	}
+	
+	public List<MemoryVo> getMemoryChart(MemoryVo vo) {
+		
+		System.out.println("Service List Start =================================================");
+		return Memorydao.getMemoryChart(vo);
+	}
  
 	/*
 	public List<List<Map<Object, Object>>> getCanvasjsChartData(CanvasjsChartVo vo) {

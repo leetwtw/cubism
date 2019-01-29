@@ -26,4 +26,10 @@ public class MemoryDao {
 		return sqlSession.selectList(namespace + ".getMemoryList", vo);
 	}
 	
+	public List<MemoryVo> getMemoryChart(MemoryVo vo) {
+		
+		//System.out.println("BbsDAO Start =================================================");
+		return sqlSession.selectList(namespace + ".getMemoryChart", vo);
+	}
+	
 }

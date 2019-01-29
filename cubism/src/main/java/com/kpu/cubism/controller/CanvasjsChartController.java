@@ -26,7 +26,8 @@ public class CanvasjsChartController {
 		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData(vo);
 		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		return "chart";
-		
 	}
+	
+	
  
 }     

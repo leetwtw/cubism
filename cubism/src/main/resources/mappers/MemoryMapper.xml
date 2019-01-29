@@ -5,20 +5,34 @@
   
 <mapper namespace="com.kpu.cubism.MemoryMapper">
 
+	<!-- 그래프 출력 -->
+	<select id="getMemoryChart" parameterType="MemoryVo" resultType="MemoryVo">
+  		SELECT
+  		 memoryIdx,
+  		 memoryFlag,
+  		 memoryRank,
+  		 memorySec,
+  		 memorymaxSec,
+  		 memoryminSec,
+  		 memoryDate
+  		FROM 
+  		 memory	
+	</select>
+
 	<!-- Max 시간 초 -->
 	<select id="getMemoryList" parameterType="MemoryVo" resultType="MemoryVo">
   		SELECT
-  		 MemoryIdx,
-  		 Memoryflag,
-  		 MemoryRank,
-  		 MemorySec,
-  		 MemorymaxSec,
-  		 MemoryminSec,
-  		 MemoryDate
+  		 memoryIdx,
+  		 memoryFlag,
+  		 memoryRank,
+  		 memorySec,
+  		 memorymaxSec,
+  		 memoryminSec,
+  		 memoryDate
   		FROM 
   		 memory
   		WHERE
-  		 Memoryflag = 'OR'	
+  		 memoryFlag = 'OR'	
 	</select>
 	
 	<!-- Min 시간 초 -->

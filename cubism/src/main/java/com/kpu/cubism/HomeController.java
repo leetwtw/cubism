@@ -33,7 +33,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "index";
 	}
 	
 	@RequestMapping(value = "/home2", method = RequestMethod.GET)
@@ -56,10 +56,29 @@ public class HomeController {
 		
 		return "/include/footer";
 	}
-	@RequestMapping(value = "/chart", method = RequestMethod.GET)
+	@RequestMapping(value = "/charttest", method = RequestMethod.GET)
 	public String chart(Locale locale, Model model) {
 		
 		
-		return "/chart2";
+		return "/chart/mychart";
+	}
+	
+	@RequestMapping(value = "/chartdb", method = RequestMethod.GET)
+	public String chartdb(Locale locale, Model model) {
+		
+		
+		return "../views/chart/view6";
+	}
+	@RequestMapping(value = "/chartdb2", method = RequestMethod.POST)
+	public String chartdb2(Locale locale, Model model) {
+		
+		
+		return "../views/chart/chartdb2";
+	}
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
+	public String calendar(Locale locale, Model model) {
+		
+		
+		return "/calendar";
 	}
 }
