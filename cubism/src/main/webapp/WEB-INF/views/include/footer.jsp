@@ -50,9 +50,8 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3 
+<!-- jQuery 3 -->
 <script src="resources/plugins/jquery/jquery.min.js"></script>
--->
 <!-- jQuery UI 1.11.4 -->
 <script src="resources/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -66,8 +65,7 @@
 <script src="resources/plugins/morris.js/morris.min.js"></script>
 -->
 <!-- Sparkline -->
-<script
-	src="resources/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="resources/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
 <!-- jvectormap -->
 <script src="resources/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
 <script src="resources/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
@@ -75,17 +73,17 @@
 <script src="resources/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
 <script src="resources/plugins/moment/moment.min.js"></script>
-<script
-	src="resources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="resources/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- DataTables -->
+<script src="resources/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="resources/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	
 <!-- datepicker -->
-<script
-	src="resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="resources/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
-<script
-	src="resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->
-<script
-	src="resources/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="resources/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="resources/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
@@ -95,7 +93,6 @@
  -->
 <!-- AdminLTE for demo purposes -->
 <script src="resources/dist/js/demo.js"></script>
-
 
 </body>
 </html>

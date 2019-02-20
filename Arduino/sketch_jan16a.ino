@@ -1,0 +1,850 @@
+#include <LiquidCrystal.h>
+#include <stdlib.h>
+#include <time.h>
+#include <DFPlayer_Mini_Mp3.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(29,28);
+LiquidCrystal lcd(8, 9, 4, 5, 6, 7);  // LCD 제어를 위한 핀 설정
+
+int lcd_key     = 0;
+int adc_key_in  = 0;
+int set=0;
+#define btnRIGHT  0
+#define btnUP     1
+#define btnDOWN   2
+#define btnLEFT   3
+#define btnSELECT 4
+#define btnNONE   5
+
+int buzzer=36;
+int button1=53;
+int button2=51;
+int button3=49;
+int button4=47;
+int button5=45;
+int button6=43;
+int button7=41;
+int button8=39;
+int vib1=52;
+int vib2=50;
+int vib3=48;
+int vib4=46;
+int vib5=44;
+int vib6=42;
+int vib7=40;
+int vib8=38;
+int melody[]={262,294,330,350,392,440,494,523};
+long start_clock,mid_clock,end_clock;
+long time_result;
+int sec,mil;
+
+int read_LCD_buttons()
+{
+ adc_key_in = analogRead(0);      // AO 핀으로부터 아날로그값을 읽어옴
+ // 읽어온 아날로그의 값에 따라 눌려진 버튼을 판단함
+ if (adc_key_in > 1000) return btnNONE; 
+ if (adc_key_in < 50)   return btnRIGHT;  
+ if (adc_key_in < 250)  return btnUP; 
+ if (adc_key_in < 400)  return btnDOWN; 
+ if (adc_key_in < 600)  return btnLEFT; 
+ if (adc_key_in < 850)  return btnSELECT;  
+ return btnNONE;  // when all others fail, return this...
+}
+
+long practiceMode(int rep){
+  int answer[rep]={0,};
+  int trying[rep]={0,};
+  int result=0;
+  int i=0;
+  int ran;
+
+  for(i=0;i<rep;i++){
+    ran=rand()%8;
+    answer[i]=ran;
+    switch(ran)
+    {
+      case 0:
+        analogWrite(vib1,150);
+        tone(buzzer,melody[0],200);
+        delay(300);
+        analogWrite(vib1,0);
+        break;
+        
+      case 1:
+        analogWrite(vib2,150);
+        tone(buzzer,melody[1],200);
+        delay(300);
+        analogWrite(vib2,0);
+        break;
+
+      case 2:
+        analogWrite(vib3,150);
+        tone(buzzer,melody[2],200);
+        delay(300);
+        analogWrite(vib3,0);
+        break;
+
+      case 3:
+        analogWrite(vib4,150);
+        tone(buzzer,melody[3],200);
+        delay(300);
+        analogWrite(vib4,0);
+        break;
+
+      case 4:
+        analogWrite(vib5,150);
+        tone(buzzer,melody[4],200);
+        delay(300);
+        analogWrite(vib5,0);
+        break;
+
+      case 5:
+        analogWrite(vib6,150);
+        tone(buzzer,melody[5],200);
+        delay(300);
+        analogWrite(vib6,0);
+        break;
+
+      case 6:
+        analogWrite(vib7,150);
+        tone(buzzer,melody[6],200);
+        delay(300);
+        analogWrite(vib7,0);
+        break;
+
+      case 7:
+        analogWrite(vib8,150);
+        tone(buzzer,melody[7],200);
+        delay(300);
+        analogWrite(vib8,0);
+        break;
+    }
+  }
+  
+  i=0;
+  start_clock=millis();
+  while(i<rep){
+    mid_clock=millis();
+    if(mid_clock-start_clock>100000){
+      mp3_play(22);
+      delay(2000);
+      mp3_play(23);
+      delay(4000);
+      return 0;
+    }
+   if(!digitalRead(button1)||!digitalRead(button2)||!digitalRead(button3)||!digitalRead(button4)||!digitalRead(button5)||!digitalRead(button6)||!digitalRead(button7)||!digitalRead(button8)){
+      if(!digitalRead(button1)) {
+        trying[i++]=0;
+        tone(buzzer,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(button2)) {
+       trying[i++]=1;
+       tone(buzzer,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(button3)) {
+       trying[i++]=2;
+       tone(buzzer,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(button4)) {
+        trying[i++]=3;
+        tone(buzzer,melody[3],200);
+       delay(300);
+      }
+      if(!digitalRead(button5)) {
+        trying[i++]=4;
+        tone(buzzer,melody[4],200);
+       delay(300);
+      }
+      if(!digitalRead(button6)) {
+        trying[i++]=5;
+        tone(buzzer,melody[5],200);
+       delay(300);
+      }
+      if(!digitalRead(button7)) {
+        trying[i++]=6;
+        tone(buzzer,melody[6],200);
+       delay(300);
+      }
+      if(!digitalRead(button8)) {
+        trying[i++]=7;
+        tone(buzzer,melody[7],200);
+       delay(300);
+      }
+   }
+  }
+
+  end_clock=millis();
+  for(i=0;i<rep;i++){
+    if(answer[i]==trying[i]) result++;
+  }
+
+  if(result==rep){
+    lcd.setCursor(10,1);
+    time_result=end_clock-start_clock;
+    sec=time_result/1000;
+    mil=time_result%1000;
+    lcd.print(sec);
+    lcd.print(".");
+    lcd.print(mil);
+    tone(buzzer,melody[0],200);
+    delay(300);
+    tone(buzzer,melody[2],200);
+    delay(300);
+    tone(buzzer,melody[4],200);
+    delay(300);
+    tone(buzzer,melody[7],200);
+    delay(300);
+    delay(1000);
+    mp3_play(21);
+    delay(1500);
+    mp3_play(19);
+    delay(1500);
+    if(sec<10){
+      mp3_play(sec);
+      delay(1500);
+    }
+    else if(sec>=10&&sec<20){
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=20&&sec<30){
+      mp3_play(2);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=30&&sec<40){
+      mp3_play(3);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=40&&sec<50){
+      mp3_play(4);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=50&&sec<60){
+      mp3_play(5);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=60&&sec<70){
+      mp3_play(6);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>70&&sec<80){
+      mp3_play(7);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=80&&sec<90){
+      mp3_play(8);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=90&&sec<100){
+      mp3_play(9);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=100){
+      mp3_play(22);
+      delay(2000);
+      mp3_play(23);
+      delay(4000);
+    }
+    if(sec<100){
+    mp3_play(20);
+    delay(1500);
+    }
+    lcd.setCursor(10,1);
+    lcd.println("       ");
+    return time_result;
+  }else{
+    lcd.setCursor(10,1);
+    lcd.print("WRONG");
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    delay(1000);
+    lcd.setCursor(10,1);
+    lcd.println("       ");
+    return 0;
+  }
+}
+
+long practiceMode2(int rep, long sum_time){
+  int answer[rep]={0,};
+  int trying[rep]={0,};
+  int result=0;
+  int i=0;
+  int ran;
+
+  for(i=0;i<rep;i++){
+    ran=rand()%8;
+    answer[i]=ran;
+    switch(ran)
+    {
+      case 0:
+        analogWrite(vib1,150);
+        tone(buzzer,melody[0],200);
+        delay(300);
+        analogWrite(vib1,0);
+        break;
+        
+      case 1:
+        analogWrite(vib2,150);
+        tone(buzzer,melody[1],200);
+        delay(300);
+        analogWrite(vib2,0);
+        break;
+
+      case 2:
+        analogWrite(vib3,150);
+        tone(buzzer,melody[2],200);
+        delay(300);
+        analogWrite(vib3,0);
+        break;
+
+      case 3:
+        analogWrite(vib4,150);
+        tone(buzzer,melody[3],200);
+        delay(300);
+        analogWrite(vib4,0);
+        break;
+
+      case 4:
+        analogWrite(vib5,150);
+        tone(buzzer,melody[4],200);
+        delay(300);
+        analogWrite(vib5,0);
+        break;
+
+      case 5:
+        analogWrite(vib6,150);
+        tone(buzzer,melody[5],200);
+        delay(300);
+        analogWrite(vib6,0);
+        break;
+
+      case 6:
+        analogWrite(vib7,150);
+        tone(buzzer,melody[6],200);
+        delay(300);
+        analogWrite(vib7,0);
+        break;
+
+      case 7:
+        analogWrite(vib8,150);
+        tone(buzzer,melody[7],200);
+        delay(300);
+        analogWrite(vib8,0);
+        break;
+    }
+  }
+  
+  i=0;
+  start_clock=millis();
+  while(i<rep){
+    mid_clock=millis();
+    if(mid_clock-start_clock+sum_time>100000){
+      mp3_play(22);
+      delay(2000);
+      mp3_play(23);
+      delay(4000);
+      return 0;
+    }
+    if(!digitalRead(button1)||!digitalRead(button2)||!digitalRead(button3)||!digitalRead(button4)||!digitalRead(button5)||!digitalRead(button6)||!digitalRead(button7)||!digitalRead(button8)){
+      if(!digitalRead(button1)) {
+        trying[i++]=0;
+        tone(buzzer,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(button2)) {
+       trying[i++]=1;
+       tone(buzzer,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(button3)) {
+       trying[i++]=2;
+       tone(buzzer,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(button4)) {
+        trying[i++]=3;
+        tone(buzzer,melody[3],200);
+       delay(300);
+      }
+      if(!digitalRead(button5)) {
+        trying[i++]=4;
+        tone(buzzer,melody[4],200);
+       delay(300);
+      }
+      if(!digitalRead(button6)) {
+        trying[i++]=5;
+        tone(buzzer,melody[5],200);
+       delay(300);
+      }
+      if(!digitalRead(button7)) {
+        trying[i++]=6;
+        tone(buzzer,melody[6],200);
+       delay(300);
+      }
+      if(!digitalRead(button8)) {
+        trying[i++]=7;
+        tone(buzzer,melody[7],200);
+       delay(300);
+      }
+   }
+  }
+
+  end_clock=millis();
+  for(i=0;i<rep;i++){
+    if(answer[i]==trying[i]) result++;
+  }
+
+  if(result==rep){
+    lcd.setCursor(10,1);
+    time_result=end_clock-start_clock;
+    sec=time_result/1000;
+    mil=time_result%1000;
+    lcd.print(sec);
+    lcd.print(".");
+    lcd.print(mil);
+    tone(buzzer,melody[0],200);
+    delay(300);
+    tone(buzzer,melody[2],200);
+    delay(300);
+    tone(buzzer,melody[4],200);
+    delay(300);
+    tone(buzzer,melody[7],200);
+    delay(300);
+    delay(1000);
+    lcd.setCursor(10,1);
+    lcd.println("       ");
+    return time_result+sum_time;
+  }else{
+    lcd.setCursor(10,1);
+    lcd.print("WRONG");
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    delay(1000);
+    lcd.setCursor(10,1);
+    lcd.println("       ");
+    return 0;
+  }
+}
+
+void Gugudan(){
+  int a,b,c,result,result2;
+  char _operator='*';
+  int trying[2]={0,};
+  int i=0;
+  do{
+    a=rand()%9+1;
+    b=rand()%9+1;
+    c=rand()%3;
+    result=a*b;
+  }while(result<10||result%10==0);
+
+  lcd.setCursor(0,1);
+  lcd.print("                ");
+  
+  lcd.setCursor(0,1);
+  lcd.print(a);
+  lcd.print(_operator);
+  lcd.print(b);
+  
+  while(i<2){
+   if(!digitalRead(button1)||!digitalRead(button2)||!digitalRead(button3)||!digitalRead(button4)||!digitalRead(button5)||!digitalRead(button6)||!digitalRead(button7)||!digitalRead(button8)){
+      if(!digitalRead(button1)) {
+        trying[i++]=1;
+        tone(buzzer,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(button2)) {
+       trying[i++]=2;
+       tone(buzzer,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(button3)) {
+       trying[i++]=3;
+       tone(buzzer,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(button4)) {
+        trying[i++]=4;
+        tone(buzzer,melody[3],200);
+       delay(300);
+      }
+      if(!digitalRead(button5)) {
+        trying[i++]=5;
+        tone(buzzer,melody[4],200);
+       delay(300);
+      }
+      if(!digitalRead(button6)) {
+        trying[i++]=6;
+        tone(buzzer,melody[5],200);
+       delay(300);
+      }
+      if(!digitalRead(button7)) {
+        trying[i++]=7;
+        tone(buzzer,melody[6],200);
+       delay(300);
+      }
+      if(!digitalRead(button8)) {
+        trying[i++]=8;
+        tone(buzzer,melody[7],200);
+       delay(300);
+      }
+   }
+  }
+  
+  result2=10*trying[0]+trying[1];
+  Serial.println(trying[0]);
+  Serial.println(trying[1]);
+  if(result==result2){
+    lcd.setCursor(7,1);
+    lcd.print("CORRECT!!");
+    tone(buzzer,melody[0],200);
+    delay(300);
+    tone(buzzer,melody[2],200);
+    delay(300);
+    tone(buzzer,melody[4],200);
+    delay(300);
+    tone(buzzer,melody[7],200);
+    delay(300);
+    delay(1000);
+    lcd.setCursor(7,1);
+    lcd.println("       ");
+  }else{
+    lcd.setCursor(10,1);
+    lcd.print("WRONG");
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    delay(1000);
+    lcd.setCursor(10,1);
+    lcd.println("       ");
+  }
+}
+
+void challengeMode(){
+  int c_success;
+  c_success=practiceMode2(2,0);
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(3,time_result);
+  else{
+    mp3_play(31);
+    delay(2200);
+    exit(0);
+  }
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(4,time_result);
+  else{
+    mp3_play(32);
+    delay(2000);
+    exit(0);
+  }
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(5,time_result);
+  else{
+    mp3_play(33);
+    delay(2000);
+    exit(0);
+  }
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(6,time_result);
+  else{
+    mp3_play(34);
+    delay(2000);
+    exit(0);
+  }
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(7,time_result);
+  else{
+    mp3_play(35);
+    delay(2000);
+    exit(0);
+  }
+  time_result+=c_success;
+  if(c_success!=0) c_success=practiceMode2(8,time_result);
+  else{
+    mp3_play(36);
+    delay(2000);
+    exit(0);
+  }
+  if(c_success!=0){
+    time_result+=c_success;
+    sec=time_result/1000;
+    mil=time_result%1000;
+    lcd.setCursor(10,1);
+    lcd.print(sec);
+    lcd.print(".");
+    lcd.print(mil);
+    mp3_play(24);
+    delay(3000);
+    mp3_play(21);
+    delay(1500);
+    mp3_play(19);
+    delay(1500);
+    if(sec<10){
+      mp3_play(sec);
+      delay(1500);
+    }
+    else if(sec>=10&&sec<20){
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=20&&sec<30){
+      mp3_play(2);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=30&&sec<40){
+      mp3_play(3);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=40&&sec<50){
+      mp3_play(4);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=50&&sec<60){
+      mp3_play(5);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=60&&sec<70){
+      mp3_play(6);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>70&&sec<80){
+      mp3_play(7);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=80&&sec<90){
+      mp3_play(8);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=90&&sec<100){
+      mp3_play(9);
+      delay(1500);
+      mp3_play(10);
+      delay(1500);
+      mp3_play(sec%10);
+      delay(1500);
+    }
+    else if(sec>=100){
+      mp3_play(22);
+      delay(3500);
+      mp3_play(23);
+      delay(4000);
+    }
+    if(sec<100){
+    mp3_play(20);
+    delay(1500);
+    }
+  }
+  else{
+    mp3_play(37);
+    delay(2000);
+    exit(0);
+  }
+  
+  lcd.setCursor(10,1);
+  lcd.println("       ");
+}
+
+void setup()
+{
+  lcd.begin(16, 2);              // LCD 초기화
+  pinMode(button1,INPUT_PULLUP);
+  pinMode(button2,INPUT_PULLUP);
+  pinMode(button3,INPUT_PULLUP);
+  pinMode(button4,INPUT_PULLUP);
+  pinMode(button5,INPUT_PULLUP);
+  pinMode(button6,INPUT_PULLUP);
+  pinMode(button7,INPUT_PULLUP);
+  pinMode(button8,INPUT_PULLUP);
+  pinMode(buzzer,OUTPUT);
+  pinMode(vib1,OUTPUT);
+  pinMode(vib2,OUTPUT);
+  pinMode(vib3,OUTPUT);
+  pinMode(vib4,OUTPUT);
+  pinMode(vib5,OUTPUT);
+  pinMode(vib6,OUTPUT);
+  pinMode(vib7,OUTPUT);
+  pinMode(vib8,OUTPUT);
+  Serial.begin(9600);
+  mySerial.begin(9600);
+  mp3_set_serial(mySerial);
+  delay(1);
+  mp3_set_volume(24);
+  srand(time(NULL));
+}
+ 
+void loop()
+{ 
+ char menu0[]="Practice Mode   ";
+ char menu1[]="Challenge Mode  ";
+ char menu2[]="Gugudan Mode    ";
+ int level[8]={1,2,3,4,5,6,7,8};
+ int current_LEVEL=0;
+ int play;
+
+ lcd.setCursor(2,0);
+ lcd.print("Select Menu!"); // LCD에 출력되는 글
+ lcd.setCursor(0,1);            // 2번째 줄(1) 1번째(0) 패널에 위치하고
+ lcd_key = read_LCD_buttons();  // 버튼이 눌려진 이름 출력하는 함수 호출
+ switch (lcd_key)               // 버튼 판단
+ {
+   case btnRIGHT:
+     {
+     if(set<2) set++;
+     else set=0;
+     delay(200);
+     break;
+     }
+     
+   case btnLEFT:
+     {
+     if(set>0) set--;
+     else set=2;
+     delay(200);
+     break;
+     }
+     
+   case btnSELECT:
+     {
+     if(set==0){
+       lcd.clear();
+       lcd.setCursor(2,0);
+       lcd.print("Select Level");
+       delay(200);
+       while(lcd_key!=btnDOWN){
+        lcd_key=read_LCD_buttons();
+        switch(lcd_key)
+        {
+          case btnRIGHT:
+          {
+            if(current_LEVEL==7) {
+              current_LEVEL=0;
+            }else current_LEVEL++;
+            delay(200);
+            break;
+          }
+          case btnLEFT:
+          {
+            if(current_LEVEL==0) {
+              current_LEVEL=7;
+            }else current_LEVEL--;
+            delay(200);
+            break;
+           }
+           case btnSELECT:
+           {
+             Serial.println(current_LEVEL);
+             play=practiceMode(current_LEVEL+1);
+             break;
+           }
+           case btnNONE:
+           {
+            lcd.setCursor(0,1);
+            lcd.print(level[current_LEVEL]);
+            break;
+           }
+        }
+       }
+     }
+     else if(set==1) {
+      challengeMode();
+     }
+     else if(set==2){
+      Gugudan();
+     }
+     break;
+     }
+     
+     case btnNONE:
+     {
+     if(set==0) {
+      lcd.print(menu0);
+     }
+     else if(set==1){
+      lcd.print(menu1);
+     }
+     else if(set==2){
+      lcd.print(menu2);
+     }
+     break;
+     }
+ }
+}

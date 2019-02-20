@@ -4,8 +4,11 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
   
 <configuration>
-	<typeAliases>
+
+		<typeAliases>
             <typeAlias type="com.kpu.cubism.vo.MemoryVo" alias="MemoryVo"/>
+            <typeAlias type="com.kpu.cubism.vo.UploadVo" alias="UploadVo"/>
+            <typeAlias type="com.kpu.cubism.vo.UserVo" alias="UserVo"/>
         </typeAliases>
 	
 </configuration>

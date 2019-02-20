@@ -13,15 +13,23 @@ window.onload = function() {         // 페이지가 로딩되면 실행
   printTime();
 }
 
+
 var chartDrowFun = {
 
   chartDrow : function(){
 	var queryObject = "";
   	var queryObjectLen = "";
-
+  	var token = $("meta[name='_csrf']").attr("content");
+  	var header = $("meta[name='_csrf_header']").attr("content");
+  	
   	$.ajax({
          type : 'POST',
          url : '/cubism/chart',
+         
+         beforeSend : function(xhr)
+         {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+             xhr.setRequestHeader(header, token);
+         },
          dataType : 'json',
          success : function(data) {
         	 console.log('log : ' + data)
@@ -29,12 +37,15 @@ var chartDrowFun = {
              queryObjectLen = queryObject.memorylist.length;
              //alert('Total lines : ' + queryObjectLen + 'EA');
          },
+         
          error : function(xhr, type) {
         	 //alert('server error occoured')
         	 //alert('error msg : ' + queryObject)
         	 alert('server msg : ' + xhr.status)
         	 console.log('log : ' + type)
         	 console.log('log : ' + xhr)
+        	 console.log('message = ' + xhr.responseText)
+        	 
          }
   	});
 
