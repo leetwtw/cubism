@@ -1,0 +1,204 @@
+#include <stdlib.h>
+#include <time.h>
+
+int buzzer=36;
+int button1=53;
+int button2=51;
+int button3=49;
+int button4=47;
+int button5=45;
+int button6=43;
+int button7=41;
+int button8=39;
+int vib1=52;
+int vib2=50;
+int vib3=48;
+int vib4=46;
+int vib5=44;
+int vib6=42;
+int vib7=40;
+int vib8=38;
+
+int melody[]={262,294,330,350,392,440,494,523};
+
+int practiceMode(int rep){
+  int answer[rep]={0,};
+  int trying[rep]={0,};
+  int result=0;
+  int i=0;
+  int ran;
+
+  for(i=0;i<rep;i++){
+    ran=rand()%8;
+    answer[i]=ran;
+    switch(ran)
+    {
+      case 0:
+        analogWrite(vib1,150);
+        tone(buzzer,melody[0],200);
+        delay(300);
+        analogWrite(vib1,0);
+        break;
+        
+      case 1:
+        analogWrite(vib2,150);
+        tone(buzzer,melody[1],200);
+        delay(300);
+        analogWrite(vib2,0);
+        break;
+
+      case 2:
+        analogWrite(vib3,150);
+        tone(buzzer,melody[2],200);
+        delay(300);
+        analogWrite(vib3,0);
+        break;
+
+      case 3:
+        analogWrite(vib4,150);
+        tone(buzzer,melody[3],200);
+        delay(300);
+        analogWrite(vib4,0);
+        break;
+
+      case 4:
+        analogWrite(vib5,150);
+        tone(buzzer,melody[4],200);
+        delay(300);
+        analogWrite(vib5,0);
+        break;
+
+      case 5:
+        analogWrite(vib6,150);
+        tone(buzzer,melody[5],200);
+        delay(300);
+        analogWrite(vib6,0);
+        break;
+
+      case 6:
+        analogWrite(vib7,150);
+        tone(buzzer,melody[6],200);
+        delay(300);
+        analogWrite(vib7,0);
+        break;
+
+      case 7:
+        analogWrite(vib8,150);
+        tone(buzzer,melody[7],200);
+        delay(300);
+        analogWrite(vib8,0);
+        break;
+    }
+  }
+  
+  i=0;
+
+  while(i<rep){
+   if(!digitalRead(button1)||!digitalRead(button2)||!digitalRead(button3)||!digitalRead(button4)||!digitalRead(button5)||!digitalRead(button6)||!digitalRead(button7)||!digitalRead(button8)){
+      if(!digitalRead(button1)) {
+        trying[i++]=0;
+        tone(buzzer,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(button2)) {
+       trying[i++]=1;
+       tone(buzzer,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(button3)) {
+       trying[i++]=2;
+       tone(buzzer,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(button4)) {
+        trying[i++]=3;
+        tone(buzzer,melody[3],200);
+       delay(300);
+      }
+      if(!digitalRead(button5)) {
+        trying[i++]=4;
+        tone(buzzer,melody[4],200);
+       delay(300);
+      }
+      if(!digitalRead(button6)) {
+        trying[i++]=5;
+        tone(buzzer,melody[5],200);
+       delay(300);
+      }
+      if(!digitalRead(button7)) {
+        trying[i++]=6;
+        tone(buzzer,melody[6],200);
+       delay(300);
+      }
+      if(!digitalRead(button8)) {
+        trying[i++]=7;
+        tone(buzzer,melody[7],200);
+       delay(300);
+      }
+   }
+  }
+
+  for(i=0;i<rep;i++){
+    if(answer[i]==trying[i]) result++;
+  }
+
+  if(result==rep){
+    tone(buzzer,melody[0],200);
+    delay(300);
+    tone(buzzer,melody[2],200);
+    delay(300);
+    tone(buzzer,melody[4],200);
+    delay(300);
+    tone(buzzer,melody[7],200);
+    delay(300);
+    return 1;
+  }else{
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    tone(buzzer,melody[6],200);
+    delay(300);
+    return 0;
+  }
+}
+
+void challengeMode(){
+  int c_success;
+  c_success=practiceMode(2);
+  if(c_success==0) c_success=practiceMode(3);
+  if(c_success==0) c_success=practiceMode(4);
+  if(c_success==0) c_success=practiceMode(5);
+  if(c_success==0) c_success=practiceMode(6);
+  if(c_success==0) c_success=practiceMode(7);
+  if(c_success==0) c_success=practiceMode(8);
+}
+
+void setup() {
+  pinMode(button1,INPUT_PULLUP);
+  pinMode(button2,INPUT_PULLUP);
+  pinMode(button3,INPUT_PULLUP);
+  pinMode(button4,INPUT_PULLUP);
+  pinMode(button5,INPUT_PULLUP);
+  pinMode(button6,INPUT_PULLUP);
+  pinMode(button7,INPUT_PULLUP);
+  pinMode(button8,INPUT_PULLUP);
+  pinMode(buzzer,OUTPUT);
+  pinMode(vib1,OUTPUT);
+  pinMode(vib2,OUTPUT);
+  pinMode(vib3,OUTPUT);
+  pinMode(vib4,OUTPUT);
+  pinMode(vib5,OUTPUT);
+  pinMode(vib6,OUTPUT);
+  pinMode(vib7,OUTPUT);
+  pinMode(vib8,OUTPUT);
+  srand(time(NULL));
+  Serial.begin(9600);
+}
+
+void loop() {
+  int l_success;
+  l_success=practiceMode(2);
+  if(l_success==1) Serial.println("success");
+  else if(l_success=0) Serial.println("failed");
+}
