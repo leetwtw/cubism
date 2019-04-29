@@ -28,7 +28,7 @@ public class UploadDao {
 	}
 
 	/*
-	 * 업르도 파일 리스트
+	 * 업로드 파일 리스트
 	 *
 	 */
 	public List<UploadVo> getUploadList(UploadVo vo) {
@@ -36,5 +36,13 @@ public class UploadDao {
 		//System.out.println("BbsDAO Start =================================================");
 		return sqlSession.selectList(namespace + ".getUploadList", vo);
 	}
-	
+	/*
+	 * 구구단 업로드 파일 리스트
+	 *
+	 */
+	public List<UploadVo> getGGUploadList(UploadVo vo) {
+		
+		//System.out.println("BbsDAO Start =================================================");
+		return sqlSession.selectList(namespace + ".getGGUploadList", vo);
+	}
 }

@@ -16,24 +16,24 @@
     <!-- -->
     <context:component-scan base-package="com.kpu.cubism"></context:component-scan>
      
-    <!-- Local DataSource 설정 -->
+    <!-- Local DataSource 설정 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/cubism?useSSL=false&amp;serverTimezone=UTC" />
         <property name="username" value="root" />
         <property name="password" value="root" />
     </bean>
-    
+    -->
     <!-- Server DataSource 설정 
     rds_connect_2 : mycubism.c0rw1rrv8ptk.ap-northeast-2.rds.amazonaws.com
-    
+    -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://mycubism.c0rw1rrv8ptk.ap-northeast-2.rds.amazonaws.com:3306/cubism?useSSL=false&amp;serverTimezone=UTC" />
         <property name="username" value="cubism" />
         <property name="password" value="11111111" />
     </bean>
-    -->
+    
     <!-- SqlSessionFactory 객체 설정 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
    		<property name="configLocation" value="classpath:mybatis-config.xml"></property>

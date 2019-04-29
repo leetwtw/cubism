@@ -261,7 +261,7 @@
           	
             <li><a href="/cubism/uploadList"><i class="fa fa-circle-o"></i> Order Game</a></li>
 
-            <li><a href="#"><i class="fa fa-circle-o"></i> GuGuDan Game</a></li>
+            <li><a href="/cubism/GGuploadList"><i class="fa fa-circle-o"></i> GuGuDan Game</a></li>
             <!-- Non Active 
             <li class="treeview">
               <a href="#"><i class="fa fa-circle-o"></i> 게임 이름3

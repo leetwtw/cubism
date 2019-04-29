@@ -25,7 +25,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        OrderGame
+        GuGuDanGame
         <small>List</small>
       </h1>
       <ol class="breadcrumb">
@@ -43,7 +43,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">OrderGame Version List</h3>
+              <h3 class="box-title">GuGuDanGame Version List</h3>
             </div>
             <!-- /.box-header -->
             

@@ -50,14 +50,6 @@
 	            </div>
 		            <div class="box-body">
 		              <div class="chart">
-		                	<div style="text-align:right; width: 90%;">
-						    	<font size=1>
-						    		<font color=blue>ex1</font>, 
-						    		<font color=red>ex2</font>, 
-						    		<font color=orange>ex3</font>, 
-						    		<font color=green>ex4</font>
-						    	</font>
-						    </div>
 						    
 						    <div style="text-align:right; width: 90%;">
 						        <font size=2>update : <span id="clock"></span></font><br>

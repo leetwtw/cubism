@@ -45,9 +45,15 @@ public class MemoryController {
 				int memoryIdx = memorylist.get(i).getMemoryIdx();
 				String memoryflag = memorylist.get(i).getMemoryflag();
 				int memoryRank = memorylist.get(i).getMemoryRank();
-				int memorySec = memorylist.get(i).getMemorySec();
-				int memorymaxSec = memorylist.get(i).getMemorymaxSec();
-				int memoryminSec = memorylist.get(i).getMemoryminSec();
+				double memorySec = memorylist.get(i).getMemorySec();
+				if(memorySec/1000 > 1) {
+					memorySec = memorySec / 1000;
+				}else 
+					memorySec = memorySec / 100;
+				
+					
+				//int memorymaxSec = memorylist.get(i).getMemorymaxSec();
+				//int memoryminSec = memorylist.get(i).getMemoryminSec();
 				String memoryDate = memorylist.get(i).getMemoryDate();
 				
 				lineObj = new JSONObject();
@@ -55,8 +61,8 @@ public class MemoryController {
 	        	lineObj.put("memoryFlag", memoryflag);
 	        	lineObj.put("memoryRank", memoryRank);
 	        	lineObj.put("memorySec", memorySec);
-	        	lineObj.put("memorymaxSec", memorymaxSec);
-	        	lineObj.put("memoryminSec", memoryminSec);
+	        	//lineObj.put("memorymaxSec", memorymaxSec);
+	        	//lineObj.put("memoryminSec", memoryminSec);
 	        	lineObj.put("memoryDate", memoryDate);
 	        	memorylist_json.add(lineObj);
 			}

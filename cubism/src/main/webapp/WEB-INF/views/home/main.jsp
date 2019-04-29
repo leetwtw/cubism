@@ -116,6 +116,7 @@
             
               <div class="box-body">
               메인페이지 입니다.
+<!-- 
                 	<sec:authorize access="isAnonymous()"> 
                 	<p>
                 		<a href="<c:url value="/loginPage" />">로그인</a>
@@ -127,7 +128,7 @@
 	                	<input type="submit" value="로그아웃" /> 
 	                	</form:form> 
 	                </sec:authorize>
-
+-->
               </div>
               <!-- /.box-body -->
 

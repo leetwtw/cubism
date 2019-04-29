@@ -62,18 +62,21 @@ var chartDrowFun = {
 
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'memoryDate');
-        data.addColumn('number', 'memorySec');
-        data.addColumn('number', 'memorymaxSec');
-        data.addColumn('number', 'memoryminSec');
+        data.addColumn('number', '등급');
+        data.addColumn('number', '시간 초');
+        //data.addColumn('number', 'memorymaxSec');	-> this is previous code 04/29
+        //data.addColumn('number', 'memoryminSec');	-> this is previous code 04/29
 
         //alert('data생성-------------------' + queryObjectLen);
         for (var i = 0; i < queryObjectLen; i++) {
             var memoryDate = queryObject.memorylist[i].memoryDate;
+            var memoryRank = queryObject.memorylist[i].memoryRank;
             var memorySec = queryObject.memorylist[i].memorySec;
-            var memorymaxSec = queryObject.memorylist[i].memorymaxSec;
-            var memoryminSec = queryObject.memorylist[i].memoryminSec;
-	      //alert(mdatecreated + ' ' + Drnpm10Value + ' ' + Drnpm25Value + ' ' + pm10Value + ' ' + pm25Value);
-            data.addRows([ [ new Date(memoryDate), memorySec, memorymaxSec, memoryminSec ] ]);
+            //var memorymaxSec = queryObject.memorylist[i].memorymaxSec;	-> this is previous code 04/29
+            //var memoryminSec = queryObject.memorylist[i].memoryminSec;	-> this is previous code 04/29
+            //alert(mdatecreated + ' ' + Drnpm10Value + ' ' + Drnpm25Value + ' ' + pm10Value + ' ' + pm25Value);
+            //data.addRows([ [ new Date(memoryDate), memorySec, memorymaxSec, memoryminSec ] ]);    -> this is previous code 04/29
+            data.addRows([ [ new Date(memoryDate), memoryRank, memorySec ] ]);
         }
 
         var chart = new google.visualization.ChartWrapper({

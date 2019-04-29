@@ -32,7 +32,7 @@ public class UploadService {
 	 * 파일 업로드 
 	 * @return 등록 결과
 	 ******************/
-	public void getUploadInsert(UploadVo uploadVO, Map<String,Object> map, HttpServletRequest request) throws Exception{
+	public boolean getUploadInsert(UploadVo uploadVO, Map<String,Object> map, HttpServletRequest request) throws Exception{
 		
 		//System.out.println("UploadService Start =================================================");
 		MultipartHttpServletRequest multi = (MultipartHttpServletRequest)request;
@@ -63,12 +63,16 @@ public class UploadService {
 		}
 			
 		System.out.println("Upload Service end 한글테스트 =================================================");
-			
+		return true;
 	}
 
 	public List<UploadVo> getUploadList(UploadVo vo) {
 		System.out.println("Service List Start =================================================");
 		return uploadDAO.getUploadList(vo);
+	}
+	public List<UploadVo> getGGUploadList(UploadVo vo) {
+		System.out.println("Service List Start =================================================");
+		return uploadDAO.getGGUploadList(vo);
 	}
 
 }

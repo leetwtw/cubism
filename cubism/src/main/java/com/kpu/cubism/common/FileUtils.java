@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,11 +20,16 @@ import com.kpu.cubism.vo.UploadVo;
 @Component("fileUtils")
 public class FileUtils {
 	// Local Path
-	// String path = "F:\\cubismproject\\upload\\";
+	// String path;
 	// Server Path
-	String path = "\\home\\ec2-user\\upload\\";
+	// String path = "/upload/";
 	public List<Map<String, Object>> parseInsertFileInfo(UploadVo uploadVO, HttpServletRequest request) throws Exception{
 		
+			//Path 설정
+			// Set path = request.getSession().getServletContext().getResourcePaths("/");
+			// System.out.println("Path : " + path);
+			String path = request.getSession().getServletContext().getRealPath("/resources/upload/");
+			System.out.println("Path : " + path);
 			//MultiparthttpServletRequest 생성
 			MultipartHttpServletRequest multi = (MultipartHttpServletRequest)request;
 			Iterator<String> iter = multi.getFileNames();
