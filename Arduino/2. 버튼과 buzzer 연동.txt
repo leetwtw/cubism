@@ -1,0 +1,20 @@
+int melody[]={262, 294, 330,350,392,440,494,523};
+int buzzer=8;
+int button=9;
+
+void setup()
+{
+  pinMode(button,INPUT_PULLUP);	//button을 인풋으로 풀업저항으로 킴
+  pinMode(buzzer,OUTPUT);		//buzzer을 아웃풋으로 킴
+}
+
+void loop()
+{
+  int readValue=digitalRead(button);	//button의 상태 값을 읽어서 readValue 저장
+  if(readValue==LOW){		//그 값이 0이면 
+    for(int i=0;i<8;i++){
+      tone(buzzer,melody[i]);		//buzzer melody[i] 출력
+      delay(300);			//300만큼 지속
+    }
+  }
+}
