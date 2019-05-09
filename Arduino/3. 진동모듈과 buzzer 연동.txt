@@ -1,0 +1,60 @@
+#include <stdlib.h>
+#include <time.h>
+
+int button=2;
+int vib1=3;
+int vib2=4;
+int vib3=5;
+int vib4=6;
+int vib5=7;
+int buzzer=8;
+int melody[]={262, 294, 330,350,392,440,494,523};
+
+void setup()
+{
+  pinMode(2,INPUT_PULLUP);
+  pinMode(vib1,OUTPUT);
+  pinMode(vib2,OUTPUT);
+  pinMode(vib3,OUTPUT);
+  pinMode(vib4,OUTPUT);
+  pinMode(vib5,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+  srand(time(NULL));
+  Serial.begin(9600);		//시리얼모니터 사용하기 위해 시리얼 시작
+}
+
+void loop()
+{
+  int ran;
+  int melody_Ran;
+  int readValue=digitalRead(2);
+  int i;
+  if(readValue==LOW){
+    Serial.println(readValue);		//시리얼 모니터에 readValue 출력
+    for(i=0;i<5;i++){
+      do{
+        ran=rand()%7+1;
+        Serial.println(ran);
+      }while(ran==1||ran==2);
+      Serial.println(ran);
+      analogWrite(ran,100);		//ran에 아날로그 값으로 100만큼 write
+      delay(1000);			//1000 지속
+      digitalWrite(ran,0);		//100을 0으로 줄임으로써 끔
+      delay(1000);			// 그 상태로 1000 지속
+      melody_Ran=rand()%8;
+      tone(8,melody[melody_Ran],200);
+      delay(300);
+    }
+  }else{
+      tone(8,melody[0],200);
+      delay(300);
+      tone(8,melody[0],200);
+      delay(300);
+      tone(8,melody[0],200);
+      delay(300);
+      digitalWrite(3,100);
+      delay(1000);
+      digitalWrite(3,0);
+      delay(1000);
+   }
+}
