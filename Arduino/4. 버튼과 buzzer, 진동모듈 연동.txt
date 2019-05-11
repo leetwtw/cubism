@@ -1,0 +1,117 @@
+#include <stdlib.h>
+#include <time.h>
+
+int buzzer=8;
+int button1=2;
+int button2=3;
+int button3=4;
+int button4=5;
+int vib1=52;
+int vib2=50;
+int vib3=48;
+int vib4=46;
+
+int melody[]={262,294,330,350,392,440,494,523};
+
+void setup() {
+  pinMode(button1,INPUT_PULLUP);
+  pinMode(button2,INPUT_PULLUP);
+  pinMode(button3,INPUT_PULLUP);
+  pinMode(button4,INPUT_PULLUP);
+  pinMode(buzzer,OUTPUT);
+  pinMode(vib1,OUTPUT);
+  pinMode(vib2,OUTPUT);
+  pinMode(vib3,OUTPUT);
+  pinMode(vib4,OUTPUT);
+  srand(time(NULL));
+  Serial.begin(9600);
+}
+
+void loop() {
+  int answer[4]={0,};
+  int trying[4]={0,};
+  int result=0;
+  int i=0;
+  int ran;
+
+  for(i=0;i<4;i++){
+    ran=rand()%4;
+    answer[i]=ran;
+    switch(ran)
+    {
+      case 0:
+        analogWrite(vib1,150);
+        tone(buzzer,melody[0],200);
+        delay(300);
+        analogWrite(vib1,0);
+        break;
+        
+      case 1:
+        analogWrite(vib2,150);
+        tone(buzzer,melody[1],200);
+        delay(300);
+        analogWrite(vib2,0);
+        break;
+
+      case 2:
+        analogWrite(vib3,150);
+        tone(buzzer,melody[2],200);
+        delay(300);
+        analogWrite(vib3,0);
+        break;
+
+      case 3:
+        analogWrite(vib4,150);
+        tone(buzzer,melody[3],200);
+        delay(300);
+        analogWrite(vib4,0);
+        break;
+    }
+  }
+  i=0;
+
+  while(i<4){
+   if(!digitalRead(2)||!digitalRead(3)||!digitalRead(4)||!digitalRead(5)){		//2,3,4,5 읽힌다면 실행
+      if(!digitalRead(2)) {
+        trying[i++]=0;
+        tone(8,melody[0],200);
+        delay(300);
+     }
+     if(!digitalRead(3)) {
+       trying[i++]=1;
+       tone(8,melody[1],200);
+       delay(300);
+      }
+     if(!digitalRead(4)) {
+       trying[i++]=2;
+       tone(8,melody[2],200);
+       delay(300);
+     }
+      if(!digitalRead(5)) {
+        trying[i++]=3;
+        tone(8,melody[3],200);
+       delay(300);
+      }
+   }
+  }
+
+  for(i=0;i<4;i++){
+    if(answer[i]==trying[i]) result++;
+  }
+
+  if(result==4){
+    tone(8,melody[0],200);
+    delay(300);
+    tone(8,melody[1],200);
+    delay(300);
+    tone(8,melody[2],200);
+    delay(300);
+  }else{
+    tone(8,melody[7],200);
+    delay(300);
+    tone(8,melody[7],200);
+    delay(300);
+    tone(8,melody[7],200);
+    delay(300);
+  }
+}
